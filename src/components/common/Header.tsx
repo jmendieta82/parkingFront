@@ -1,7 +1,15 @@
 import {Button, Navbar, NavbarBrand, NavbarContent, NavbarItem} from "@nextui-org/react";
 import {Link} from "react-router-dom";
+import {post} from "../../shared/api.tsx";
 
 const Header = () => {
+  const login = async () => {
+    let obj = {
+      username : 'jamen17',
+      password : 'alison2009',
+    }
+    await post('api-auth',obj)
+  };
   return (
     <Navbar className='bg-blue-950 text-white'>
       <NavbarBrand>
@@ -31,7 +39,7 @@ const Header = () => {
       </NavbarContent>
       <NavbarContent justify="end">
         <NavbarItem className="hidden lg:flex">
-          <Link className='text-white' to=''>Login</Link>
+          <Link className='text-white' to='' onClick={login}>Login</Link>
         </NavbarItem>
         <NavbarItem>
           <Button as={Link} color="warning" href="#" variant="flat">
