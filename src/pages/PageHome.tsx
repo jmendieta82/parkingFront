@@ -1,20 +1,30 @@
 import Layout from "../components/common/Layout.tsx";
 import {Card, CardBody, CardHeader} from "@nextui-org/react";
-import CardParking from "../components/common/CardParking.tsx";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import FormTiket from "../components/common/FormTiket.tsx";
+
+
 
 
 const PageHome = () => {
 
   const [horaActual, setHoraActual] = useState(new Date().toLocaleTimeString());
 
+
+  const isMounted = useRef(true);
+
   useEffect(() => {
     const timer = setInterval(()=>{
-      setHoraActual(new Date().toLocaleTimeString());
+      if (isMounted.current) {
+        setHoraActual(new Date().toLocaleTimeString());
+      }
     }, 1000);
+
     // Limpiar el intervalo cuando el componente se desmonte
-    return () => clearInterval(timer);
+    return () => {
+      isMounted.current = false;
+      clearInterval(timer);
+    }
   }, []);
 
 
@@ -32,13 +42,6 @@ const PageHome = () => {
             <FormTiket/>
           </CardBody>
         </Card>
-        <div className='grid grid-cols-4 gap-2'>
-          <CardParking/>
-          <CardParking/>
-          <CardParking/>
-          <CardParking/>
-          <CardParking/>
-        </div>
       </div>
     </Layout>
   );
